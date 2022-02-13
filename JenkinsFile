@@ -37,16 +37,7 @@ pipeline{
                 }
             }
           }
-                stage("Quality gate") {
-                    steps {
-                        script{
-                            flag=env.STAGE_NAME
-                         }
-                         timeout(time: 1, unit: 'HOURS') { 
-                     waitForQualityGate abortPipeline: true
-                     }
-                 }
-                }
+                
           stage("Deployee"){
            when {
                 expression {
