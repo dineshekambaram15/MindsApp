@@ -15,7 +15,7 @@ pipeline{
                 script{
                     flag=env.STAGE_NAME
                 }
-              withSonarQubeEnv('sonarqube2') {
+              withSonarQubeEnv('sonar-mindapp') {
                 sh 'java -version'
                 sh 'mvn clean package sonar:sonar'
                  echo "========********************************\nDeploying executed successfully\n***************========"
@@ -58,12 +58,12 @@ pipeline{
                     flag=env.STAGE_NAME
                 }
                      rtUpload (
-                         serverId: 'artifactory-server',
+                         serverId: 'Artifact-server',
                      spec: """{
                              "files": [
                                       {
                                      "pattern": "target/*.jar",
-                                     "target": "art-doc-dev-loc/${env.BUILD_NUMBER}/"
+                                     "target": "art-mav-rep/${env.BUILD_NUMBER}/"
                                     }
                                 ]
                             }"""
@@ -91,11 +91,11 @@ pipeline{
      
                      
             rtDownload (
-                         serverId: 'artifactory-server',
+                         serverId: 'Artifact-server',
                      spec: """{
                              "files": [
                                       {
-                                      "pattern": "art-doc-dev-loc/${params.buildnumber}/*.jar",
+                                      "pattern": "art-mav-rep/${params.buildnumber}/*.jar",
                                       "target": "bazinga/"
                                     }
                                 ]
@@ -108,7 +108,7 @@ pipeline{
                     // script{
                     //     zip zipFile: 'bazinga.zip', archive: false, dir: 'bazinga/'
                     // }
-                    // emailext attachLog: true, attachmentsPattern: "bazinga.zip", body: "<b> Artifact is downloaded with build number of ${params.buildnumber} </b> <br>Project: ${env.JOB_NAME} <br>Current Build Number: ${env.BUILD_NUMBER} <br> URL of build: ${env.BUILD_URL}", compressLog: true, subject: 'Pipeline Failed in :', to: 'vimaleshn98@gmail.com '
+                    // emailext attachLog: true, attachmentsPattern: "bazinga.zip", body: "<b> Artifact is downloaded with build number of ${params.buildnumber} </b> <br>Project: ${env.JOB_NAME} <br>Current Build Number: ${env.BUILD_NUMBER} <br> URL of build: ${env.BUILD_URL}", compressLog: true, subject: 'Pipeline Failed in :', to: 'mukeshkousalya2k17@gmail.com '
 
                 }
                 
@@ -136,7 +136,7 @@ pipeline{
             echo "========pipeline executed successfully ${flag}  ========"
         }
         failure{
-             emailext attachLog: true, body: "<b> Pipeline is failed on ${flag} </b> <br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL of build: ${env.BUILD_URL}", compressLog: true, subject: 'Pipeline Failed in :', to: 'vimaleshn98@gmail.com '
+             emailext attachLog: true, body: "<b> Pipeline is failed on ${flag} </b> <br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL of build: ${env.BUILD_URL}", compressLog: true, subject: 'Pipeline Failed in :', to: 'mukeshkousalya2k17@gmail.com '
             echo "========pipeline execution failed  ${flag}========"
         }
     }
