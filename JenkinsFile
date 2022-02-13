@@ -59,14 +59,14 @@ pipeline{
                 }
                      rtUpload (
                          serverId: 'Artifact-server',
-                     spec: """{
+                     spec :'''{
                              "files": [
                                       {
                                      "pattern": "target/*.jar",
                                      "target": "art-mav-rep/${env.BUILD_NUMBER}/"
                                     }
                                 ]
-                            }"""
+                            }'''
                         )
                     }
             post{
@@ -92,25 +92,20 @@ pipeline{
                      
             rtDownload (
                          serverId: 'Artifact-server',
-                     spec: """{
+                     spec :'''{
                              "files": [
                                       {
                                       "pattern": "art-mav-rep/${params.buildnumber}/*.jar",
                                       "target": "bazinga/"
                                     }
                                 ]
-                            }"""
+                            }'''
                         )
                     }
             post{
                 success{
                     echo "========Download executed successfully========"
-                    // script{
-                    //     zip zipFile: 'bazinga.zip', archive: false, dir: 'bazinga/'
-                    // }
-                    // emailext attachLog: true, attachmentsPattern: "bazinga.zip", body: "<b> Artifact is downloaded with build number of ${params.buildnumber} </b> <br>Project: ${env.JOB_NAME} <br>Current Build Number: ${env.BUILD_NUMBER} <br> URL of build: ${env.BUILD_URL}", compressLog: true, subject: 'Pipeline Failed in :', to: 'mukeshkousalya2k17@gmail.com '
-
-                }
+                    }
                 
                 failure{
                     echo "========Download stage execution failed========"
@@ -137,7 +132,7 @@ pipeline{
         }
         failure{
              emailext attachLog: true, body: "<b> Pipeline is failed on ${flag} </b> <br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL of build: ${env.BUILD_URL}", compressLog: true, subject: 'Pipeline Failed in :', to: 'mukeshkousalya2k17@gmail.com '
-            echo "========pipeline execution failed  ${flag}========"
+             echo "========pipeline execution failed  ${flag}========"
         }
     }
 }
