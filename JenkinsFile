@@ -114,7 +114,7 @@ pipeline{
         }
         stage("deploy to ec2"){
        steps{
-            sshagent(['f674a595-aa5a-4e23-90fb-eb8ee9341dfe']){{
+            sshagent(['f674a595-aa5a-4e23-90fb-eb8ee9341dfe']){
                     sh 'scp -r target/*.jar ubuntu@54.190.49.106:/home/ubuntu/artifacts'
         }
        }
